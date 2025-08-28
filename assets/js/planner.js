@@ -28,7 +28,7 @@ function renderCalendar() {
     cell.appendChild(num);
     const dots = document.createElement('div');
     dots.className = 'dots';
-    plannerEvents.filter(e=>e.date===dateStr).forEach(e=>{
+      plannerEvents.filter(e=>dateStr>=e.date && dateStr<=(e.end_date||e.date)).forEach(e=>{
       const dot = document.createElement('span');
       dot.style.backgroundColor = e.color;
       dots.appendChild(dot);
@@ -48,7 +48,7 @@ function renderDay() {
   const container = document.getElementById('dayEvents');
   const dateStr = selectedDate.toISOString().slice(0,10);
   label.textContent = dateStr;
-  const list = plannerEvents.filter(e=>e.date===dateStr).sort((a,b)=>{
+    const list = plannerEvents.filter(e=>dateStr>=e.date && dateStr<=(e.end_date||e.date)).sort((a,b)=>{
     return (a.start||'').localeCompare(b.start||'');
   });
   container.innerHTML = '';
@@ -60,7 +60,7 @@ function renderDay() {
     const div = document.createElement('div');
     div.className = 'event';
     div.style.borderColor = e.color;
-    const time = (e.start?e.start:'') + (e.end?'-'+e.end:'');
+    const time = getEventTime(e, dateStr);
     const span = document.createElement('span');
     span.textContent = (time?`[${time}] `:'') + e.title;
     div.appendChild(span);
@@ -72,7 +72,23 @@ function renderDay() {
   });
 }
 
+function getEventTime(e, dateStr){
+  if (e.end_date && e.end_date !== e.date) {
+    if (dateStr === e.date) {
+      return e.start ? `${e.start}-24:00` : '24:00';
+    }
+    if (dateStr === e.end_date) {
+      return e.end ? `00:00-${e.end}` : '00:00';
+    }
+    if (dateStr > e.date && dateStr < e.end_date) {
+      return 'Visa diena';
+    }
+  }
+  return (e.start?e.start:'') + (e.end?'-'+e.end:'');
+}
+
 function deleteEvent(id){
+  if(!confirm('Vai tiešām dzēst šo notikumu?')) return;
   fetch('includes/process_planner.php', {
     method: 'POST',
     body: new URLSearchParams({action:'deleteEvent', id})
@@ -103,15 +119,16 @@ document.getElementById('eventForm').addEventListener('submit', function(e){
     body: new URLSearchParams(fd)
   }).then(r=>r.json()).then(res=>{
     if(res.success){
-      plannerEvents.push(res.event);
-      this.reset();
-      currentDate = new Date(res.event.date);
-      selectedDate = new Date(res.event.date);
-      renderCalendar();
-      renderDay();
-    }
+        plannerEvents.push(res.event);
+        this.reset();
+        currentDate = new Date(res.event.date);
+        selectedDate = new Date(res.event.date);
+        renderCalendar();
+        renderDay();
+        document.getElementById('eventModal').classList.add('hidden');
+      }
+    });
   });
-});
 
 function renderNotes(){
   const list = document.getElementById('notesList');
@@ -129,6 +146,7 @@ function renderNotes(){
 }
 
 function deleteNote(id){
+  if(!confirm('Vai tiešām dzēst šo piezīmi?')) return;
   fetch('includes/process_planner.php', {
     method:'POST',
     body:new URLSearchParams({action:'deleteNote', id})
@@ -177,3 +195,11 @@ renderCalendar();
 renderDay();
 renderNotes();
 bindPayButtons();
+
+const modal = document.getElementById('eventModal');
+document.getElementById('addEventBtn').addEventListener('click', ()=>{
+  modal.classList.remove('hidden');
+});
+modal.querySelector('.close').addEventListener('click', ()=>{
+  modal.classList.add('hidden');
+});
