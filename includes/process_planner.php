@@ -29,16 +29,20 @@ function writej(string $file, array $data): bool {
 $action = $_POST['action'] ?? '';
 
 switch ($action) {
-  case 'addEvent': {
-    $date  = trim($_POST['date']  ?? '');
-    $title = trim($_POST['title'] ?? '');
-    if ($date === '' || $title === '') {
-      echo json_encode(['success'=>false,'error'=>'Trūkst datums vai nosaukums']);
-      break;
-    }
-    $start = trim($_POST['start'] ?? '');
-    $end   = trim($_POST['end']   ?? '');
-    $color = trim($_POST['color'] ?? '#000000');
+    case 'addEvent': {
+      $date  = trim($_POST['date']  ?? '');
+      $endDate = trim($_POST['end_date'] ?? '');
+      $title = trim($_POST['title'] ?? '');
+      if ($date === '' || $title === '') {
+        echo json_encode(['success'=>false,'error'=>'Trūkst datums vai nosaukums']);
+        break;
+      }
+      if ($endDate !== '' && $endDate < $date) {
+        $endDate = $date;
+      }
+      $start = trim($_POST['start'] ?? '');
+      $end   = trim($_POST['end']   ?? '');
+      $color = trim($_POST['color'] ?? '#000000');
     $events = readj($eventsFile);
     $id = 1;
     foreach ($events as $e) {
@@ -46,9 +50,10 @@ switch ($action) {
         $id = $e['id'] + 1;
       }
     }
-    $new = ['id'=>$id,'date'=>$date,'title'=>$title,'color'=>$color];
-    if ($start !== '') $new['start'] = $start;
-    if ($end !== '')   $new['end']   = $end;
+      $new = ['id'=>$id,'date'=>$date,'title'=>$title,'color'=>$color];
+      if ($endDate !== '') $new['end_date'] = $endDate;
+      if ($start !== '') $new['start'] = $start;
+      if ($end   !== '') $new['end']   = $end;
     $events[] = $new;
     writej($eventsFile, $events);
     echo json_encode(['success'=>true,'event'=>$new], JSON_UNESCAPED_UNICODE);

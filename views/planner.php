@@ -32,21 +32,13 @@ if (is_dir($dataDir . 'archive')) {
 <div class="planner">
   <div class="row">
     <div class="col month-view">
+      <button id="addEventBtn" class="add-event-btn" type="button">+</button>
       <div class="calendar-nav">
         <button id="prevMonth" type="button">&lt;</button>
         <span id="monthLabel"></span>
         <button id="nextMonth" type="button">&gt;</button>
       </div>
       <div id="calendar"></div>
-      <form id="eventForm">
-        <h3>Pievienot notikumu</h3>
-        <label>Datums: <input type="date" name="date" required></label>
-        <label>Sākums: <input type="time" name="start"></label>
-        <label>Beigas: <input type="time" name="end"></label>
-        <label>Nosaukums: <input type="text" name="title" required></label>
-        <label>Krāsa: <input type="color" name="color" value="#0000ff"></label>
-        <button type="submit">Pievienot</button>
-      </form>
     </div>
     <div class="col day-view">
       <h3 id="dayLabel"></h3>
@@ -56,7 +48,7 @@ if (is_dir($dataDir . 'archive')) {
   <div class="row">
     <div class="col notes">
       <h3>Piezīmes</h3>
-      <form id="noteForm">
+      <form id="noteForm" accept-charset="UTF-8">
         <input type="text" id="noteText" name="text" placeholder="Piezīme" required>
         <input type="color" id="noteColor" name="color" value="#ffff88">
         <button type="submit">Pievienot</button>
@@ -82,6 +74,21 @@ if (is_dir($dataDir . 'archive')) {
         </tbody>
       </table>
     </div>
+  </div>
+</div>
+<div id="eventModal" class="modal hidden">
+  <div class="modal-content">
+    <button type="button" class="close">×</button>
+    <form id="eventForm" accept-charset="UTF-8">
+      <h3>Pievienot notikumu</h3>
+      <label>Sākuma datums: <input type="date" name="date" required></label>
+      <label>Beigu datums: <input type="date" name="end_date"></label>
+      <label>Sākums: <input type="time" name="start"></label>
+      <label>Beigas: <input type="time" name="end"></label>
+      <label>Nosaukums: <input type="text" name="title" required></label>
+      <label>Krāsa: <input type="color" name="color" value="#0000ff"></label>
+      <button type="submit">Pievienot</button>
+    </form>
   </div>
 </div>
 <script>
