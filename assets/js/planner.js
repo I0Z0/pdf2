@@ -60,7 +60,19 @@ function renderDay() {
     const div = document.createElement('div');
     div.className = 'event';
     div.style.borderColor = e.color;
-    const time = (e.start?e.start:'') + (e.end?'-'+e.end:'');
+    let time = '';
+    if (e.end_date && e.end_date !== e.date) {
+      if (dateStr > e.date && dateStr < e.end_date) {
+        time = 'Pilna diena';
+      } else if (dateStr === e.date && e.start) {
+        time = e.start;
+      } else if (dateStr === e.end_date && e.end) {
+        time = e.end;
+      }
+    } else {
+      if (e.start) time = e.start;
+      if (e.end) time = (time?time+'-':'') + e.end;
+    }
     const span = document.createElement('span');
     span.textContent = (time?`[${time}] `:'') + e.title;
     div.appendChild(span);
@@ -73,7 +85,8 @@ function renderDay() {
 }
 
 function deleteEvent(id){
-    fetch('includes/process_planner.php', {
+  if(!confirm('Vai tiešām dzēst šo notikumu?')) return;
+  fetch('includes/process_planner.php', {
     method: 'POST',
     body: new URLSearchParams({action:'deleteEvent', id})
   }).then(r=>r.json()).then(res=>{
@@ -130,6 +143,7 @@ function renderNotes(){
 }
 
 function deleteNote(id){
+  if(!confirm('Vai tiešām dzēst šo ierakstu?')) return;
   fetch('includes/process_planner.php', {
     method:'POST',
     body:new URLSearchParams({action:'deleteNote', id})

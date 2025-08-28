@@ -87,26 +87,32 @@
 }
 #dayEvents .event {
   margin: 5px 0;
-  padding: 4px;
+  padding: 4px 24px 4px 4px;
   border-left: 6px solid;
   background: #f5f5f5;
   position: relative;
 }
+.notes ul { list-style: none; padding: 0; }
+.notes li {
+  margin: 4px 0;
+  padding: 4px 24px 4px 4px;
+  position: relative;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+}
+.notes li button,
 #dayEvents .event button {
   position: absolute;
   right: 4px;
   top: 4px;
-}
-.notes ul { list-style: none; padding: 0; }
-.notes li {
-  margin: 4px 0;
-  padding: 4px 20px 4px 4px;
-  position: relative;
-}
-.notes li button {
-  position: absolute;
-  right: 4px;
-  top: 4px;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: 16px;
+  line-height: 20px;
+  cursor: pointer;
 }
 .unpaid table {
   width: 100%;
