@@ -1,0 +1,191 @@
+:root {
+    --primary-color: #e53935;        /* Sarkans akcents */
+    --secondary-color: #ffffff;      /* Baltais fons */
+    --bg-light: #eef6fa;             /* Gaiši zilpelēks fons */
+    --shadow: 0 4px 18px 0 rgba(50,60,70,0.10);
+    --border-radius: 9px;
+}
+
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100vh;
+    height: 100vh;  /* Ja vēlies - nodrošina pilnu augstumu */
+    background: var(--bg-light);
+    color: #273248;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+/* Stilizē ritjoslu Chrome/Safari/Edge */
+body::-webkit-scrollbar {
+    width: 10px;
+    background: #e9f0f6;
+}
+body::-webkit-scrollbar-thumb {
+    background: #bdd6ea;
+    border-radius: 6px;
+}
+
+header {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    text-align: center;
+    padding: 5px 0 12px 0;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 50px;
+    flex-shrink: 0;
+    border-bottom: 2px solid #e7eaf3;
+    /* Papildu nošķīrums no satura */
+}
+
+footer {
+    background: var(--secondary-color);
+    color: var(--primary-color);
+    text-align: center;
+    padding: 20px 0 16px 0;
+    box-shadow: 0 -2px 18px 0 rgba(50,60,70,0.09); /* Ēna uz augšu, nevis uz leju */
+    min-height: 50px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    border-top: 2px solid #e7eaf3;
+    margin-top: auto; /* "uzspiež" footer apakšā, ja maz saturs */
+    position: relative; /* ļauj stilizēt, ja vajag kādu elementu futerī */
+    z-index: 2;
+    font-size: 1.04em;
+    opacity: 0.96;
+    letter-spacing: 0.03em;
+}
+
+
+h1, h2, legend {
+    color: var(--primary-color);
+    margin-bottom: 10px;
+    letter-spacing: 0.02em;
+}
+
+main {
+    flex: 1 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+form,  .success, .error {
+    background: var(--secondary-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    padding: 24px 28px 20px 28px;
+    margin: 24px 0;
+    min-width: 600px;
+    max-width: 1000px;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+fieldset {
+    border: 1px solid #bdd6ea;
+    border-radius: var(--border-radius);
+    margin-bottom: 15px;
+    padding: 14px 18px 8px 18px;
+    background: #f8fbfd;
+    box-shadow: 0 2px 8px 0 rgba(100,120,150,0.07);
+}
+
+label {
+    display: block;
+    margin-bottom: 6px;
+    color: #263248;
+    font-weight: 500;
+}
+
+input[type="password"], input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="date"], select, textarea {
+    width: 98%;
+    padding: 8px 9px;
+    border: 1px solid #bdd6ea;
+    border-radius: 6px;
+    font-size: 1em;
+    margin-bottom: 10px;
+    background: #f9fcfe;
+    transition: border .18s;
+}
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: #fff;
+}
+
+input[type="radio"], input[type="checkbox"] {
+    margin-right: 4px;
+}
+
+button, input[type="submit"] {
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    padding: 9px 26px;
+    border-radius: var(--border-radius);
+    font-size: 1em;
+    font-weight: bold;
+    box-shadow: 0 2px 8px 0 rgba(210,40,40,0.08);
+    cursor: pointer;
+    margin-top: 8px;
+    transition: background 0.13s, box-shadow 0.18s;
+}
+button:hover, input[type="submit"]:hover {
+    background: #b71c1c;
+    box-shadow: 0 6px 16px 0 rgba(210,40,40,0.12);
+}
+
+.success {
+    background: #e7f8e6;
+    color: #20601e;
+    border-left: 5px solid #6be676;
+}
+
+.error {
+    background: #ffebee;
+    color: #b71c1c;
+    border-left: 5px solid var(--primary-color);
+}
+
+nav {
+    margin: 10px 0 0 0;
+}
+nav a {
+    color: var(--primary-color);
+    font-weight: bold;
+    text-decoration: none;
+    margin: 0 12px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    transition: background 0.13s;
+}
+nav a.active, nav a:hover {
+    background: #ffdde0;
+}
+
+::-webkit-input-placeholder { color: #9ab0c1; }
+::-moz-placeholder          { color: #9ab0c1; }
+:-ms-input-placeholder      { color: #9ab0c1; }
+::placeholder              { color: #9ab0c1; }

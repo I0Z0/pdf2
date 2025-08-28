@@ -1,0 +1,48 @@
+/* Specifiski stili reģistrācijas lapas formai */
+#registration-form {
+    max-width:600px;
+    margin: 20px auto;
+    padding: 10px;
+    background: #ffffff;
+    border: 1px solid #ddd;
+}
+
+/* Stils laukiem grupās */
+fieldset {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+legend {
+    font-weight: bold;
+    padding: 0 5px;
+}
+
+/* Paslēpjam juridiskās personas sekciju pēc noklusējuma */
+#jurSection {
+    display: none;
+}
+
+.vehicle-block {
+    border: 1px solid #bdd6ea;
+    border-radius: 10px;
+    background: #f9fbfe;
+    box-shadow: 0 2px 8px 0 rgba(90,100,150,0.08);
+    padding: 14px 18px 10px 18px;
+    position: relative;
+}
+.remove-vehicle-btn {
+    background: #e53935;
+    color: #fff;
+    border: none;
+    border-radius: 16px;
+    padding: 2px 14px;
+    position: absolute;
+    right: 16px; top: 14px;
+    cursor: pointer;
+}
+
+
+.form-section {
+        min-width: 800px;
+}
