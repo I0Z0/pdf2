@@ -28,7 +28,7 @@ function renderCalendar() {
     cell.appendChild(num);
     const dots = document.createElement('div');
     dots.className = 'dots';
-    plannerEvents.filter(e=>e.date===dateStr).forEach(e=>{
+      plannerEvents.filter(e=>dateStr>=e.date && dateStr<=(e.end_date||e.date)).forEach(e=>{
       const dot = document.createElement('span');
       dot.style.backgroundColor = e.color;
       dots.appendChild(dot);
@@ -48,7 +48,7 @@ function renderDay() {
   const container = document.getElementById('dayEvents');
   const dateStr = selectedDate.toISOString().slice(0,10);
   label.textContent = dateStr;
-  const list = plannerEvents.filter(e=>e.date===dateStr).sort((a,b)=>{
+    const list = plannerEvents.filter(e=>dateStr>=e.date && dateStr<=(e.end_date||e.date)).sort((a,b)=>{
     return (a.start||'').localeCompare(b.start||'');
   });
   container.innerHTML = '';
@@ -73,7 +73,7 @@ function renderDay() {
 }
 
 function deleteEvent(id){
-  fetch('includes/process_planner.php', {
+    fetch('includes/process_planner.php', {
     method: 'POST',
     body: new URLSearchParams({action:'deleteEvent', id})
   }).then(r=>r.json()).then(res=>{
@@ -103,15 +103,16 @@ document.getElementById('eventForm').addEventListener('submit', function(e){
     body: new URLSearchParams(fd)
   }).then(r=>r.json()).then(res=>{
     if(res.success){
-      plannerEvents.push(res.event);
-      this.reset();
-      currentDate = new Date(res.event.date);
-      selectedDate = new Date(res.event.date);
-      renderCalendar();
-      renderDay();
-    }
+        plannerEvents.push(res.event);
+        this.reset();
+        currentDate = new Date(res.event.date);
+        selectedDate = new Date(res.event.date);
+        renderCalendar();
+        renderDay();
+        document.getElementById('eventModal').classList.add('hidden');
+      }
+    });
   });
-});
 
 function renderNotes(){
   const list = document.getElementById('notesList');
@@ -177,3 +178,11 @@ renderCalendar();
 renderDay();
 renderNotes();
 bindPayButtons();
+
+const modal = document.getElementById('eventModal');
+document.getElementById('addEventBtn').addEventListener('click', ()=>{
+  modal.classList.remove('hidden');
+});
+modal.querySelector('.close').addEventListener('click', ()=>{
+  modal.classList.add('hidden');
+});
